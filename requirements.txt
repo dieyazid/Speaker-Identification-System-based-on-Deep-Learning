@@ -1,0 +1,6 @@
+numpy==1.23.5
+tensorflow==2.11.1
+tensorflow-model-optimization==0.8.0
+scikit-learn==1.2.2
+librosa==0.10.2.post1
+PyAudio==0.2.14
