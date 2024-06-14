@@ -5,13 +5,13 @@ from pydub import AudioSegment
 from tabulate import tabulate
 
 # Set the path to the original dataset
-original_dataset_path = 'data'
+original_dataset_path = 'RawData-set'
 
 # Set the paths for the split dataset
-output_dir = 'Dataset'
-train_dir = os.path.join(output_dir, 'Training data')
-val_dir = os.path.join(output_dir, 'Validation data')
-test_dir = os.path.join(output_dir, 'Testing data')
+output_dir = 'ReadyData-set'
+train_dir = os.path.join(output_dir, 'Trainingdata')
+val_dir = os.path.join(output_dir, 'Validationdata')
+test_dir = os.path.join(output_dir, 'Testingdata')
 
 # Create directories for training, validation, and testing sets
 os.makedirs(train_dir, exist_ok=True)

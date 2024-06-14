@@ -8,3 +8,4 @@ Lite/*
 pruning_logs/
 pycache/
 AudioSamples/*
+plot_info/*

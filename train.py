@@ -7,11 +7,13 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropou
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report
+import matplotlib.pyplot as plt
+import pandas as pd
 
 # Set the paths to the dataset directories
-train_data_dir = 'Dataset\ReadyData-set\Training data'
-val_data_dir = 'Dataset\ReadyData-set\Validation data'
-test_data_dir = 'Dataset\ReadyData-set\Testing data'
+train_data_dir = 'Dataset/ReadyData-set/Training data'
+val_data_dir = 'Dataset/ReadyData-set/Validation data'
+test_data_dir = 'Dataset/ReadyData-set/Testing data'
 
 # Function to load audio files and extract features
 def extract_features(file_path, max_pad_len=174):
@@ -50,7 +52,7 @@ def load_data(data_dir):
     return np.array(features), np.array(labels)
 
 # Paths to save the data
-asset_dir = 'Speakers\Features'
+asset_dir = 'Speakers/Features'
 train_features_path = os.path.join(asset_dir, 'X_train.npy')
 train_labels_path = os.path.join(asset_dir, 'y_train.npy')
 val_features_path = os.path.join(asset_dir, 'X_val.npy')
@@ -157,10 +159,10 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
 
 # Train the model
-model.fit(X_train, y_train, epochs=25, batch_size=32, validation_data=(X_val, y_val), callbacks=[early_stopping])
+history = model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val), callbacks=[early_stopping])
 
 # Save the model
-model.save('Models\Model.h5')
+model.save('Model.h5')
 
 # Save label encoder classes
 np.save('Speakers/Features/label_classes.npy', le.classes_)
@@ -177,3 +179,32 @@ y_true_labels = np.argmax(y_test, axis=1)
 
 print(classification_report(y_true_labels, y_pred_labels, target_names=le.classes_, zero_division=1))
 
+# Save the history to a CSV file
+history_df = pd.DataFrame(history.history)
+history_df.to_csv('training_history.csv', index=False)
+
+# Plotting function
+def plot_history(history):
+    plt.figure(figsize=(12, 5))
+
+    # Plot validation loss
+    plt.subplot(1, 2, 1)
+    plt.plot(history.history['val_loss'], label='Validation Loss')
+    plt.title('Validation Loss over Epochs')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend()
+
+    # Plot validation accuracy
+    plt.subplot(1, 2, 2)
+    plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
+    plt.title('Validation Accuracy over Epochs')
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
+# Call the plotting function
+plot_history(history)
