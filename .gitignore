@@ -1,11 +1,36 @@
-AudioSamples/
+# Ignore raw and processed datasets
 Dataset/RawData-set/
 Dataset/ReadyData-set/
-Models/*
+
+# Ignore model files but keep Python scripts
+Models/
 !Models/*.py
-Lite/*
+
+# Ignore Lite folder except its Python scripts (if it exists in future)
+Lite/
 !Lite/*.py
+
+# Ignore logs, cache and environment folders
 pruning_logs/
-pycache/
-AudioSamples/*
-plot_info/*
+__pycache__/
+*.py[cod]
+*.log
+
+# Ignore generated audio samples
+AudioSamples/
+
+# Ignore plots and analysis outputs but keep plot scripts
+plot_info/
+!plot_info/*.py
+
+# Ignore virtual environment
+venv/
+
+# Ignore CSV and NPY data files
+*.csv
+*.npy
+
+# Ignore system-specific or editor-specific files
+.DS_Store
+.vscode/
+.idea/
